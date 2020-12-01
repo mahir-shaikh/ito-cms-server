@@ -57,7 +57,7 @@ app.post('/uploadJson', upload.array('files'), function (req, res) {
         console.log("No file is available!");
         return res.send({
             success: false,
-            message: "No image selected"
+            message: "No file selected"
         });
 
     } else {
@@ -93,11 +93,10 @@ app.post('/deleteJson', (req, res) => {
 
 //This method will get all images from nodejs folder
 app.get('/getAllJson',(req, res)=>{
+    console.log("Inside Get All Json API")
     fs.readdir(jsonUploadFolder, (err, files) => {
-        let all = files.map((file)=>{
-            return jsonUploadFolder+file;
-        })
-        res.send(all)
+        console.log("Files:", files)
+        res.send(files)
     });
 })
 
@@ -128,19 +127,21 @@ function writeFile(fileData, filePath = dataPath, callback, encoding = 'utf8'){
 
 // READ
 app.get('/getJson', (req, res) => {
-    console.log(req)
-    fs.readFile(experienceJsonPath, 'utf8', (err, data) => {
+    var file = jsonUploadFolder + req.query.fileName;
+    console.log(file);
+    fs.readFile(file, 'utf8', (err, data) => {
         if (err) {
             throw err;
         }
-
-        res.send(JSON.parse(data));
+        console.log("here")
+        res.send(data);
     });
 });
 //WRITE
 app.post('/postJson', (req, res) => {
-    const data = req.body
-    writeFile(JSON.stringify(data, null, 2), experienceJsonPath ,(x) => {
+    const data = req.body.data
+    const file = jsonUploadFolder + req.body.fileName
+    writeFile(JSON.stringify(data, null, 2), file ,(x) => {
         res.send({
             success: true,
             message: "JSON updated successfully"
