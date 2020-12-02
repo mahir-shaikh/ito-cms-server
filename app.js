@@ -72,8 +72,10 @@ app.post('/uploadJson', upload.array('files'), function (req, res) {
 
 
 // This method deletes file from nodejs folder
-app.post('/deleteJson', (req, res) => {
-    let path = req.body.path
+app.delete('/deleteJson', (req, res) => {
+    let name = req.query.fileName;
+    let path = jsonUploadFolder + name;
+    console.log('deleting file at' + path)
     fs.unlink(path, (err)=>{
         if(err){
             res.send({
@@ -90,6 +92,14 @@ app.post('/deleteJson', (req, res) => {
         })
     })
 });
+
+// This api downloads a file from nodejs folder
+app.get('/downloadJson', function(req, res){
+    var fileName = req.query.fileName;
+    const file = jsonUploadFolder + fileName;
+    console.log(file)
+    res.download(file); // Set disposition and send it.
+  });
 
 //This method will get all images from nodejs folder
 app.get('/getAllJson',(req, res)=>{
