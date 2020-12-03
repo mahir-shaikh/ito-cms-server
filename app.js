@@ -193,23 +193,23 @@ function pushToGit(){
       simpleGitPromise.add('.')
         .then(
            (addSuccess) => {
-              console.log("addsuccess", addSuccess);
+              console.log(addSuccess);
            }, (failedAdd) => {
-              console.log('adding files failed', failedAdd);
+              console.log('adding files failed');
         }).then(()=>{
             // Commit files as Initial Commit
              simpleGitPromise.commit('Intial commit by simplegit')
                .then(
                   (successCommit) => {
-                    console.log("successCommit",successCommit);
+                    console.log(successCommit);
                  }, (failed) => {
-                    console.log('failed commmit', failed);
+                    console.log('failed commmit');
              });
         }).then(()=>{
             // Finally push to online repository
              simpleGitPromise.push('origin','master')
                 .then((success) => {
-                   console.log('repo successfully pushed', success);
+                   console.log('repo successfully pushed');
                 },(failed)=> {
                    console.log('repo push failed', failed);
              });
