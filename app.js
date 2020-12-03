@@ -171,6 +171,8 @@ app.post('/postJson', (req, res) => {
 function pushToGit(GitMessage){
     // change current directory to repo directory in local
     shellJs.cd('uploads/json/');
+    //Repo name
+    const repo = "ito-cmo-uploads"
     // User name and password of your GitHub
     const userName = 'mahir-shaikh';
     const password = 'ma26626hir';
@@ -181,12 +183,9 @@ function pushToGit(GitMessage){
     simpleGit.addConfig('user.email','mahirthebest95@gmail.com');
     simpleGit.addConfig('user.name','Mahir Shaikh');
     // Add remore repo url as origin to repo
-    // git.init()
-    //     .then(function onInit (initResult) { })
-    //     .then(() => git.addRemote('origin', 'git@github.com:steveukx/git-js.git'))
-    //     .then(function onRemoteAdd (addRemoteResult) { })
-    //     .catch(err => console.error(err));
-    simpleGitPromise.addRemote('origin',gitHubUrl);
+    simpleGit.init()
+        .then(() => git.addRemote('origin', gitHubUrl))
+    // simpleGitPromise.addRemote('origin',gitHubUrl);
     // Add all files for commit
       simpleGitPromise.add('.')
         .then(
@@ -212,6 +211,11 @@ function pushToGit(GitMessage){
                    console.log('repo push failed', failed);
              });
         })
+
+
+    // using a promise at the end of the chain to check for failures in any task
+    simpleGit.init().addRemote('origin', gitHubUrl)
+    .catch(err => console.error(err));
 }
 
 app.post('/pushToGit', (req, res)=>{
