@@ -177,18 +177,12 @@ function pushToGit(){
     const userName = 'mahir-shaikh';
     const password = 'ma26626hir';
     // Set up GitHub url like this so no manual entry of user pass needed
-    // const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
-    const gitHubUrl = `git@github.com/${userName}/${repo}`;
+    const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
     // add local git config like username and email
     simpleGit.addConfig('user.email','mahirthebest95@gmail.com');
     simpleGit.addConfig('user.name','Mahir Shaikh');
     // Add remore repo url as origin to repo
-    // git.init()
-    //     .then(function onInit (initResult) { })
-    //     .then(() => git.addRemote('origin', 'git@github.com:steveukx/git-js.git'))
-    //     .then(function onRemoteAdd (addRemoteResult) { })
-    //     .catch(err => console.error(err));
-    simpleGitPromise.addRemote('origin',gitHubUrl);
+    // simpleGitPromise.addRemote('origin',gitHubUrl);
     // Add all files for commit
       simpleGitPromise.add('.')
         .then(
