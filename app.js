@@ -171,6 +171,8 @@ app.post('/postJson', (req, res) => {
 function pushToGit(GitMessage){
     // change current directory to repo directory in local
     shellJs.cd('uploads/json/');
+    // Repo name
+    const repo = 'ito-cms-uploads';  //Repo name
     // User name and password of your GitHub
     const userName = 'mahir-shaikh';
     const password = 'ma26626hir';
