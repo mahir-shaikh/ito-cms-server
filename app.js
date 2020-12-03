@@ -9,13 +9,6 @@ const jsonUploadFolder = 'uploads/json/';
 const fs = require('fs');
 var publicDir = require('path').join(__dirname,'/uploads'); 
 
-// Git Operations
-// Simple-git without promise 
-const simpleGit = require('simple-git')();
-// Shelljs package for running shell tasks optional
-const shellJs = require('shelljs');
-// Simple Git with Promise for handling success and failure
-const simpleGitPromise = require('simple-git/promise')();
 
 const app = express();
 app.use(cors({ origin: '*' }));
@@ -165,60 +158,3 @@ app.post('/postJson', (req, res) => {
         })
     });
 });
-
-
-// GIT Operations
-function pushToGit(){
-    // change current directory to repo directory in local
-    shellJs.cd('uploads/json/');
-    // Repo name
-    const repo = 'ito-cms-uploads';  //Repo name
-    // User name and password of your GitHub
-    const userName = 'mahir-shaikh';
-    const password = 'ma26626hir';
-    // Set up GitHub url like this so no manual entry of user pass needed
-    // const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
-    const gitHubUrl = `git@github.com/${userName}/${repo}`;
-    // add local git config like username and email
-    simpleGit.addConfig('user.email','mahirthebest95@gmail.com');
-    simpleGit.addConfig('user.name','Mahir Shaikh');
-    // Add remore repo url as origin to repo
-    // git.init()
-    //     .then(function onInit (initResult) { })
-    //     .then(() => git.addRemote('origin', 'git@github.com:steveukx/git-js.git'))
-    //     .then(function onRemoteAdd (addRemoteResult) { })
-    //     .catch(err => console.error(err));
-    simpleGitPromise.addRemote('origin',gitHubUrl);
-    // Add all files for commit
-      simpleGitPromise.add('.')
-        .then(
-           (addSuccess) => {
-              console.log("addsuccess", addSuccess);
-           }, (failedAdd) => {
-              console.log('adding files failed', failedAdd);
-        }).then(()=>{
-            // Commit files as Initial Commit
-             simpleGitPromise.commit('Intial commit by simplegit')
-               .then(
-                  (successCommit) => {
-                    console.log("successCommit",successCommit);
-                 }, (failed) => {
-                    console.log('failed commmit', failed);
-             });
-        }).then(()=>{
-            // Finally push to online repository
-             simpleGitPromise.push('origin','master')
-                .then((success) => {
-                   console.log('repo successfully pushed', success);
-                },(failed)=> {
-                   console.log('repo push failed', failed);
-             });
-        })
-}
-
-app.post('/pushToGit', (req, res)=>{
-    const message = req.body.message
-    console.log(message)
-    pushToGit();
-    res.sendStatus(200)
-})
