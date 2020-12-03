@@ -178,13 +178,13 @@ function pushToGit(GitMessage){
     const password = 'ma26626hir';
     // Set up GitHub url like this so no manual entry of user pass needed
     // const gitHubUrl = `https://${userName}:${password}@github.com/${userName}/${repo}`;
-    const gitHubUrl = `git@github.com/${userName}/${repo}`;
+    const gitHubUrl = `https://github.com/${userName}/${repo}`;
     // add local git config like username and email
     simpleGit.addConfig('user.email','mahirthebest95@gmail.com');
     simpleGit.addConfig('user.name','Mahir Shaikh');
     // Add remore repo url as origin to repo
     simpleGit.init()
-        .then(() => git.addRemote('origin', gitHubUrl))
+        .then(() => simpleGit.addRemote('origin', gitHubUrl))
     // simpleGitPromise.addRemote('origin',gitHubUrl);
     // Add all files for commit
       simpleGitPromise.add('.')
